@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<script src="addReview.js" defer></script>
+	<title>Document</title>
+</head>
+<body>
+	<header>
+		<nav>
+			<button type="button" onclick="location.href = './reviews.html'"><- Back</button>
+		</nav>
+	</header>
+
+		<div class="add-review-container">
+
+				<div>
+					<p>Select product:</p>
+					<select class="select-product"></select>
+					<div class="add-new-product-container hidden">
+						<input type="text" class="add-new-product-input" placeholder="Enter new product name...">
+					</div>
+
+				</div>
+
+				<div>
+					<p>Add review:</p>
+					<textarea placeholder="Enter your review here..." class="add-review-textarea"></textarea>
+				</div>
+
+				<div>
+					<button class="add-review-btn" type="button"
+									onclick="addReview()">Add review</button>
+				</div>
+
+		</div>
+
+</body>
+</html>

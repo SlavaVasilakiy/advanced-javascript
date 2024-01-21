@@ -43,20 +43,71 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 
+const reviewsContainer = document.getElementById('reviewsContainer');
+// Добавляем выпадающий список для выбора товара один раз
+const productSelect = document.createElement('select');
+productSelect.id = 'productSelect';
+
+initialData.forEach(product => {
+	const option = document.createElement('option');
+	option.value = product.product;
+	option.textContent = product.product;
+	productSelect.appendChild(option);
+});
+
+reviewsContainer.appendChild(productSelect);
+
 function addReview() {
 	const reviewInput = document.getElementById('reviewInput').value;
-	const reviewsContainer = document.getElementById('reviewsContainer');
+	const selectedProduct = productSelect.options[productSelect.selectedIndex].value;
 
 	if (reviewInput.length < 50 || reviewInput.length > 500) {
 		alert('Длина отзыва должна быть от 50 до 500 символов.');
 		return;
 	}
 
-	const newReview = document.createElement('div');
-	newReview.textContent = reviewInput;
-	reviewsContainer.appendChild(newReview);
+	// Находим выбранный продукт в массиве
+	const product = initialData.find(item => item.product === selectedProduct);
+
+	// Создаем новый отзыв и добавляем его в массив
+	const newReview = {
+		id: String(Math.random()), // Генерируем временный идентификатор
+		text: reviewInput,
+	};
+
+	product.reviews.push(newReview);
 
 	// Очищаем поле ввода
 	document.getElementById('reviewInput').value = '';
+
+	// Переотображаем отзывы
+	displayReviews();
 }
 
+function displayReviews() {
+	const reviewsContainer = document.getElementById('reviewsContainer');
+	reviewsContainer.innerHTML = ''; // Очищаем контейнер перед отображением
+
+	initialData.forEach(product => {
+		product.reviews.forEach(review => {
+			const reviewDiv = document.createElement('div');
+			reviewDiv.textContent = `${product.product}: ${review.text}`;
+			reviewsContainer.appendChild(reviewDiv);
+		});
+	});
+
+	// Обновляем опции выпадающего списка
+	updateProductSelectOptions();
+}
+
+function updateProductSelectOptions() {
+	const productSelect = document.getElementById('productSelect');
+	productSelect.innerHTML = '';
+
+	initialData.forEach(product => {
+		const option = document.createElement('option');
+		option.value = product.product;
+		option.textContent = product.product;
+		productSelect.appendChild(option);
+	});
+}
